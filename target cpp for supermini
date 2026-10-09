@@ -1,0 +1,33 @@
+
+#include <Arduino.h>
+#include <SPI.h>
+#include "target.h"
+
+C3Board board;
+
+// Use the same global SPI object as the working standalone test.
+RADIO_CLASS radio = new Module(
+    P_LORA_NSS,
+    P_LORA_DIO_0,
+    P_LORA_RESET,
+    P_LORA_DIO_1
+);
+
+WRAPPER_CLASS radio_driver(radio, board);
+
+ESP32RTCClock fallback_clock;
+AutoDiscoverRTCClock rtc_clock(fallback_clock);
+SensorManager sensors;
+
+bool radio_init() {
+  fallback_clock.begin();
+  rtc_clock.begin(Wire);
+
+  // Configure the global SPI bus on GPIO 4, 5 and 6.
+  return radio.std_init(&SPI);
+}
+
+mesh::LocalIdentity radio_new_identity() {
+  RadioNoiseListener rng(radio);
+  return mesh::LocalIdentity(&rng);
+}
