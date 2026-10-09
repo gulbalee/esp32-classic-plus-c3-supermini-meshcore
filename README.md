@@ -1,4 +1,3 @@
 # Meshcore Custom code for ESP32 Classic Wroom and C3 SuperMini
 Download visual studio code on windows and add extension paltformio as well as c++ microsoft.
-clone git from meshcore and add copy /variant/heltec folder rename to my_esp32_sx1278 and another to my_esp32_sx1278_companion.
-paste the respective code from the files in each and build then flash
+download the zip and unzip. open as new project in visual studio code. open a new terminal from platformio extension (alien logo on left side) run "pio run -e my_esp32c3_sx1278_companion_ble -t upload --upload-port COM{your com port number}"
